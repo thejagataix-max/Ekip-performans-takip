@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamGoal Pro - Bulut Performans Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .tab-active { border-bottom: 3px solid #4f46e5; color: #4f46e5; font-weight: 700; }
+        .table-row:hover { background-color: #f8fafc; }
+        .sort-header { cursor: pointer; user-select: none; transition: background-color 0.2s; }
+        .sort-header:hover { background-color: #f1f5f9; }
+        .workday-counter { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-900">
+
+    <nav class="glass sticky top-0 z-40 border-b border-slate-200 px-6 pt-4">
+        <div class="max-w-7xl mx-auto flex flex-col gap-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <div class="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-200">
+                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                    </div>
+                    <h1 class="text-xl font-bold tracking-tight text-slate-800">TeamGoal Pro <span class="text-[10px] bg-indigo-100 text-indigo-600 px-2 py-0.5 rounded ml-2">CLOUD</span></h1>
+                </div>
+                
+                <div class="flex items-center gap-3 bg-emerald-50 border border-emerald-100 px-4 py-2 rounded-2xl shadow-sm workday-counter">
+                    <div class="bg-emerald-500 p-1.5 rounded-lg text-white">
+                        <i data-lucide="calendar-days" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-emerald-600 font-bold uppercase leading-none mb-0.5">Kalan İş Günü</p>
+                        <p class="text-lg font-black text-emerald-700 leading-none" id="remainingWorkDaysDisplay">0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex gap-8 text-sm font-semibold text-slate-500">
+                <button onclick="switchTab('performance')" id="tab-performance" class="pb-3 tab-active transition-all">Ekip Performansı</button>
+                <button onclick="switchTab('goals')" id="tab-goals" class="pb-3 hover:text-indigo-600 transition-all">Veri & Hedef Yönetimi</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-6">
+        <div id="performanceSection" class="space-y-8 animate-in fade-in duration-500">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-indigo-600 rounded-3xl p-6 text-white shadow-xl shadow-indigo-100">
+                    <p class="text-indigo-100 text-sm font-medium mb-1">Genel Satış HGO</p>
+                    <div class="text-3xl font-bold" id="mainHGO">0%</div>
+                    <div class="mt-2 w-full bg-indigo-400 rounded-full h-1.5 overflow-hidden">
+                        <div id="mainHGOBar" class="bg-white h-1.5 rounded-full transition-all duration-700" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                    <p class="text-slate-500 text-sm font-medium mb-1">Toplam EG Gerçekleşen</p>
+                    <div class="text-3xl font-bold text-slate-800" id="mainEG">0 <span class="text-lg text-slate-400">/ 0</span></div>
+                </div>
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                    <p class="text-slate-500 text-sm font-medium mb-1">Toplam Günlük Satış İhtiyacı</p>
+                    <div class="text-3xl font-bold text-indigo-600" id="mainDailySales">0 ₺</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+                <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-white">
+                    <div>
+                        <h3 class="font-bold text-lg text-slate-800 uppercase tracking-tight">Ekip Performans Sıralaması</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Bulut üzerinden anlık güncellenir.</p>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-500 text-[10px] uppercase tracking-wider font-bold">
+                                <th onclick="sortPerformance('name')" class="sort-header px-4 py-4 min-w-[150px]">Ad Soyad</th>
+                                <th onclick="sortPerformance('salesRealized')" class="sort-header px-4 py-4">Satış (Gerç. / Hedef)</th>
+                                <th onclick="sortPerformance('hgo')" class="sort-header px-4 py-4 text-center">HGO %</th>
+                                <th onclick="sortPerformance('egCurrent')" class="sort-header px-4 py-4 text-center">Mevcut EG</th>
+                                <th class="px-4 py-4 text-center text-indigo-600">Günlük EG H.</th>
+                                <th class="px-4 py-4 text-center text-indigo-600">Günlük Satış H. (₺)</th>
+                                <th onclick="sortPerformance('pot')" class="sort-header px-4 py-4 text-center">Potansiyel %</th>
+                                <th class="px-4 py-4 text-center">Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody id="performanceTableBody" class="text-sm divide-y divide-slate-100"></tbody>
+                        <tfoot id="performanceTableFooter" class="bg-slate-50 font-bold border-t-2 border-slate-200"></tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="performanceCards"></div>
+        </div>
+
+        <div id="goalsSection" class="hidden space-y-12">
+            <section class="space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+                    <div class="flex items-center gap-2">
+                        <div class="bg-indigo-100 p-2 rounded-lg text-indigo-600"><i data-lucide="settings" class="w-5 h-5"></i></div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">Ekip Yönetimi</h2>
+                            <p class="text-sm text-slate-500">Değişiklikler anında tüm ekibe yansır.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="toggleModal('memberModal', true)" class="bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-bold shadow-sm hover:bg-slate-50">
+                            <i data-lucide="user-plus" class="w-4 h-4 text-indigo-600"></i><span>Üye Ekle</span>
+                        </button>
+                        <button onclick="toggleModal('goalModal', true)" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-bold shadow-lg shadow-indigo-100">
+                            <i data-lucide="plus" class="w-4 h-4"></i><span>Yeni Görev</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-500 text-[9px] uppercase font-bold">
+                                <th class="px-4 py-3">Ekip Üyesi</th>
+                                <th class="px-4 py-3">Gerç. Satış</th>
+                                <th class="px-4 py-3">Satış Hedefi</th>
+                                <th class="px-4 py-3">Mevcut EG</th>
+                                <th class="px-4 py-3">EG Hedefi</th>
+                                <th class="px-4 py-3 text-center">İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody id="managementTableBody" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
+            </section>
+            <section class="space-y-6">
+                <h2 class="text-xl font-bold text-slate-800">Operasyonel Görevler</h2>
+                <div id="goalsContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+            </section>
+        </div>
+    </main>
+
+    <div id="memberModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-md shadow-2xl p-6">
+            <h3 class="font-bold text-lg mb-4">Yeni Ekip Üyesi Ekle</h3>
+            <form id="memberForm" class="space-y-4">
+                <input type="text" id="memberName" placeholder="Ad Soyad" required class="w-full px-4 py-2 rounded-xl border border-slate-200">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="number" id="memberSalesTarget" placeholder="Satış Hedefi" value="1500000" class="w-full px-4 py-2 rounded-xl border border-slate-200">
+                    <input type="number" id="memberEGTarget" placeholder="EG Hedefi" value="20" class="w-full px-4 py-2 rounded-xl border border-slate-200">
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl">Kaydet</button>
+                <button type="button" onclick="toggleModal('memberModal', false)" class="w-full text-slate-400 mt-2">Kapat</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="goalModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-md shadow-2xl p-6">
+            <h3 class="font-bold text-lg mb-4">Yeni Görev</h3>
+            <form id="goalForm" class="space-y-4">
+                <input type="text" id="goalTitle" placeholder="Görev Başlığı" required class="w-full px-4 py-2 rounded-xl border border-slate-200">
+                <select id="goalAssignee" class="w-full px-4 py-2 rounded-xl border border-slate-200 bg-white"></select>
+                <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl">Görevi Kaydet</button>
+                <button type="button" onclick="toggleModal('goalModal', false)" class="w-full text-slate-400 mt-2">Kapat</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAwyovQyQnhXc8QPbZdl3Y_QY2BGeIaVNo",
+            authDomain: "ekiptakip-de668.firebaseapp.com",
+            projectId: "ekiptakip-de668",
+            storageBucket: "ekiptakip-de668.firebasestorage.app",
+            messagingSenderId: "56278883383",
+            appId: "1:56278883383:web:0186c346b0e74f7658b3b2",
+            measurementId: "G-21YMK7HQKE"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // --- GLOBAL DEĞİŞKENLER ---
+        let teamPerformance = [];
+        let goals = [];
+        let sortConfig = { key: 'hgo', direction: 'desc' };
+        
+        const today = new Date();
+        const totalWorkDays = calculateTotalWorkDays();
+        const passedWorkDays = calculatePassedWorkDays();
+        const remainingWorkDays = calculateRemainingWorkDays();
+
+        // --- FIREBASE DİNLEYİCİLERİ ---
+        onSnapshot(collection(db, "ekipPerformans"), (snapshot) => {
+            teamPerformance = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            renderPerformance();
+            renderManagement();
+        });
+
+        onSnapshot(collection(db, "operasyonelGorevler"), (snapshot) => {
+            goals = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            renderGoals();
+        });
+
+        // --- HESAPLAMA FONKSİYONLARI ---
+        function calculateTotalWorkDays() {
+            const last = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+            let count = 0;
+            for (let i = 1; i <= last; i++) {
+                const day = new Date(today.getFullYear(), today.getMonth(), i).getDay();
+                if (day !== 0 && day !== 6) count++;
+            }
+            return count;
+        }
+
+        function calculatePassedWorkDays() {
+            let count = 0;
+            for (let i = 1; i <= today.getDate(); i++) {
+                const day = new Date(today.getFullYear(), today.getMonth(), i).getDay();
+                if (day !== 0 && day !== 6) count++;
+            }
+            return count || 1;
+        }
+
+        function calculateRemainingWorkDays() {
+            const last = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+            let count = 0;
+            for (let i = today.getDate(); i <= last; i++) {
+                const day = new Date(today.getFullYear(), today.getMonth(), i).getDay();
+                if (day !== 0 && day !== 6) count++;
+            }
+            return count || 1;
+        }
+
+        const calculateHGO = (r, t) => t ? parseFloat(((r / t) * 100).toFixed(1)) : 0;
+        const calculatePot = (r, t) => t ? parseFloat((((r / passedWorkDays) * totalWorkDays) / t * 100).toFixed(1)) : 0;
+        const getDaily = (r, t) => Math.max(0, Math.ceil((t - r) / remainingWorkDays));
+
+        // --- RENDER & UI FONKSİYONLARI (Window'a bağlanmış) ---
+        window.switchTab = (tab) => {
+            document.getElementById('performanceSection').classList.toggle('hidden', tab !== 'performance');
+            document.getElementById('goalsSection').classList.toggle('hidden', tab !== 'goals');
+            document.getElementById('tab-performance').classList.toggle('tab-active', tab === 'performance');
+            document.getElementById('tab-goals').classList.toggle('tab-active', tab === 'goals');
+        };
+
+        window.toggleModal = (id, show) => document.getElementById(id).classList.toggle('hidden', !show);
+
+        window.updatePerf = async (id, field, value) => {
+            await updateDoc(doc(db, "ekipPerformans", id), { [field]: parseFloat(value) || 0 });
+        };
+
+        window.deleteMember = async (id) => {
+            if(confirm('Silmek istediğine emin misin?')) await deleteDoc(doc(db, "ekipPerformans", id));
+        };
+
+        window.sortPerformance = (key) => {
+            sortConfig.direction = (sortConfig.key === key && sortConfig.direction === 'desc') ? 'asc' : 'desc';
+            sortConfig.key = key;
+            renderPerformance();
+        };
+
+        function renderPerformance() {
+            const tbody = document.getElementById('performanceTableBody');
+            const cards = document.getElementById('performanceCards');
+            document.getElementById('remainingWorkDaysDisplay').textContent = remainingWorkDays;
+
+            const sorted = [...teamPerformance].sort((a, b) => {
+                let vA = a[sortConfig.key], vB = b[sortConfig.key];
+                if (sortConfig.key === 'hgo') { vA = calculateHGO(a.salesRealized, a.salesTarget); vB = calculateHGO(b.salesRealized, b.salesTarget); }
+                return sortConfig.direction === 'desc' ? vB - vA : vA - vB;
+            });
+
+            let tR = 0, tT = 0, tE = 0, tET = 0;
+            tbody.innerHTML = sorted.map(p => {
+                const hgo = calculateHGO(p.salesRealized, p.salesTarget);
+                const pot = calculatePot(p.salesRealized, p.salesTarget);
+                const dE = getDaily(p.egCurrent, p.egTarget);
+                const dS = getDaily(p.salesRealized, p.salesTarget);
+                tR += p.salesRealized; tT += p.salesTarget; tE += p.egCurrent; tET += p.egTarget;
+
+                return `<tr class="table-row"><td class="px-4 py-4 font-bold">${p.name}</td><td class="px-4 py-4">${p.salesRealized.toLocaleString()} / ${p.salesTarget.toLocaleString()}</td><td class="px-4 py-4 text-center font-bold">${hgo}%</td><td class="px-4 py-4 text-center">${p.egCurrent}/${p.egTarget}</td><td class="px-4 py-4 text-center text-indigo-600">${dE}</td><td class="px-4 py-4 text-center text-indigo-600">${dS.toLocaleString()}</td><td class="px-4 py-4 text-center font-bold text-indigo-600">${pot}%</td><td class="px-4 py-4 text-center"><span class="px-2 py-1 rounded text-[10px] font-bold ${hgo>=80?'bg-emerald-100 text-emerald-700':'bg-amber-100 text-amber-700'}">${hgo>=80?'BAŞARILI':'TAKİPTE'}</span></td></tr>`;
+            }).join('');
+
+            document.getElementById('mainHGO').textContent = calculateHGO(tR, tT) + '%';
+            document.getElementById('mainHGOBar').style.width = Math.min(calculateHGO(tR, tT), 100) + '%';
+            document.getElementById('mainEG').innerHTML = `${tE} <span class="text-lg text-slate-400">/ ${tET}</span>`;
+            
+            cards.innerHTML = sorted.map(p => `
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                    <div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center font-bold text-indigo-600">${p.name[0]}</div><h4 class="font-bold">${p.name}</h4></div>
+                    <div class="space-y-4">
+                        <div class="w-full bg-slate-100 h-2 rounded-full"><div class="bg-indigo-600 h-full" style="width: ${Math.min(calculateHGO(p.salesRealized, p.salesTarget),100)}%"></div></div>
+                        <div class="flex justify-between items-end"><div class="text-[10px] font-bold text-slate-400 uppercase">Potansiyel<p class="text-indigo-600 text-lg font-black">${calculatePot(p.salesRealized, p.salesTarget)}%</p></div><div class="text-right text-[10px] font-bold text-slate-400 uppercase">Günlük Hedef<p class="text-slate-800 text-lg font-black">${getDaily(p.salesRealized, p.salesTarget).toLocaleString()} ₺</p></div></div>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderManagement() {
+            document.getElementById('managementTableBody').innerHTML = teamPerformance.map(p => `
+                <tr>
+                    <td class="px-4 py-4 font-bold text-xs">${p.name}</td>
+                    <td class="px-2 py-3"><input type="number" onchange="updatePerf('${p.id}', 'salesRealized', this.value)" value="${p.salesRealized}" class="w-full border rounded p-1 text-xs"></td>
+                    <td class="px-2 py-3"><input type="number" onchange="updatePerf('${p.id}', 'salesTarget', this.value)" value="${p.salesTarget}" class="w-full border rounded p-1 text-xs"></td>
+                    <td class="px-2 py-3"><input type="number" onchange="updatePerf('${p.id}', 'egCurrent', this.value)" value="${p.egCurrent}" class="w-full border rounded p-1 text-xs text-center"></td>
+                    <td class="px-2 py-3"><input type="number" onchange="updatePerf('${p.id}', 'egTarget', this.value)" value="${p.egTarget}" class="w-full border rounded p-1 text-xs text-center"></td>
+                    <td class="px-4 py-4 text-center"><button onclick="deleteMember('${p.id}')" class="text-red-400 hover:text-red-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>
+                </tr>
+            `).join('');
+            document.getElementById('goalAssignee').innerHTML = teamPerformance.map(p => `<option value="${p.name}">${p.name}</option>`).join('');
+            lucide.createIcons();
+        }
+
+        function renderGoals() {
+            document.getElementById('goalsContainer').innerHTML = goals.map(g => `
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-start mb-2"><span class="px-2 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-bold uppercase rounded">${g.status}</span></div>
+                    <h4 class="font-bold text-slate-800">${g.title}</h4>
+                    <p class="text-xs text-slate-400 mb-4">${g.assignee}</p>
+                    <div class="bg-slate-100 h-1 rounded-full overflow-hidden"><div class="bg-indigo-600 h-full" style="width: ${g.progress}%"></div></div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // --- FORMLAR ---
+        document.getElementById('memberForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await addDoc(collection(db, "ekipPerformans"), {
+                name: document.getElementById('memberName').value,
+                salesRealized: 0,
+                salesTarget: parseFloat(document.getElementById('memberSalesTarget').value) || 1500000,
+                egCurrent: 0,
+                egTarget: parseFloat(document.getElementById('memberEGTarget').value) || 20
+            });
+            toggleModal('memberModal', false); e.target.reset();
+        });
+
+        document.getElementById('goalForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await addDoc(collection(db, "operasyonelGorevler"), {
+                title: document.getElementById('goalTitle').value,
+                assignee: document.getElementById('goalAssignee').value,
+                status: 'yapılacak', progress: 0
+            });
+            toggleModal('goalModal', false); e.target.reset();
+        });
+
+        window.onload = () => lucide.createIcons();
+    </script>
+</body>
+</html>
