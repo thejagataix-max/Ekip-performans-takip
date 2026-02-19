@@ -21,233 +21,247 @@
         body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
         
         /* Glassmorphism Styles */
-        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .glass { background: rgba(248, 250, 252, 0.95); backdrop-filter: blur(10px); }
         .dark .glass { background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid rgba(255,255,255,0.05); }
         
         .tab-active { border-bottom: 3px solid #4f46e5; color: #4f46e5; font-weight: 700; }
         .dark .tab-active { border-bottom: 3px solid #6366f1; color: #6366f1; }
         
-        .table-row:hover { background-color: #f8fafc; }
+        .table-row:hover { background-color: #e2e8f0; }
         .dark .table-row:hover { background-color: #1e293b; }
         
-        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05); }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
         .dark .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2); }
         
         .animate-pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         
-        /* Custom Scrollbar for Dark Mode */
+        /* Custom Scrollbar */
         .dark ::-webkit-scrollbar { width: 8px; }
         .dark ::-webkit-scrollbar-track { background: #0f172a; }
         .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         .dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 min-h-screen text-slate-900 dark:text-slate-100 selection:bg-indigo-500 selection:text-white">
+<body class="bg-slate-200 dark:bg-slate-900 min-h-screen text-slate-900 dark:text-slate-100 selection:bg-indigo-500 selection:text-white text-base">
 
     <!-- NAV BAR -->
-    <nav class="glass sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800 px-6 pt-4 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto flex flex-col gap-4">
+    <nav class="glass sticky top-0 z-40 border-b border-slate-300 dark:border-slate-800 px-6 pt-5 transition-colors duration-300 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-col gap-5">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-2">
-                    <div class="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-500/30">
-                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                <div class="flex items-center gap-3">
+                    <div class="bg-indigo-600 p-2.5 rounded-xl text-white shadow-lg shadow-indigo-500/30">
+                        <i data-lucide="bar-chart-3" class="w-7 h-7"></i>
                     </div>
                     <div>
-                        <h1 class="text-xl font-extrabold tracking-tight text-slate-800 dark:text-white leading-none">TeamGoal Pro</h1>
-                        <span class="text-[10px] font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-widest">Hedef & Potansiyel Yönetimi</span>
+                        <h1 class="text-2xl font-extrabold tracking-tight text-slate-800 dark:text-white leading-none">TeamGoal Pro</h1>
+                        <span class="text-xs font-bold text-indigo-700 dark:text-indigo-400 uppercase tracking-widest">Hedef & Potansiyel Yönetimi</span>
                     </div>
                 </div>
                 
                 <div class="flex items-center gap-4">
-                    <!-- İş Günü Sayacı -->
-                    <div class="flex items-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-5 py-2 rounded-2xl shadow-sm transition-colors duration-300">
-                        <div class="flex flex-col items-center border-r border-slate-100 dark:border-slate-700 pr-4">
-                            <span class="text-[9px] text-slate-400 dark:text-slate-500 font-bold uppercase">Toplam Gün</span>
-                            <span class="text-lg font-black text-slate-700 dark:text-slate-200 leading-none" id="totalDaysDisplay">0</span>
+                    <div class="flex items-center gap-4 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-6 py-3 rounded-2xl shadow-sm transition-colors duration-300">
+                        <div class="flex flex-col items-center border-r border-slate-200 dark:border-slate-700 pr-5">
+                            <span class="text-[10px] text-slate-600 dark:text-slate-500 font-bold uppercase">Toplam Gün</span>
+                            <span class="text-xl font-black text-slate-800 dark:text-slate-200 leading-none" id="totalDaysDisplay">0</span>
                         </div>
-                        <div class="flex flex-col items-center border-r border-slate-100 dark:border-slate-700 pr-4">
-                            <span class="text-[9px] text-slate-400 dark:text-slate-500 font-bold uppercase">Geçen</span>
-                            <span class="text-lg font-black text-slate-700 dark:text-slate-200 leading-none" id="passedDaysDisplay">0</span>
+                        <div class="flex flex-col items-center border-r border-slate-200 dark:border-slate-700 pr-5">
+                            <span class="text-[10px] text-slate-600 dark:text-slate-500 font-bold uppercase">Geçen</span>
+                            <span class="text-xl font-black text-slate-800 dark:text-slate-200 leading-none" id="passedDaysDisplay">0</span>
                         </div>
                         <div class="flex items-center gap-3 pl-1">
-                            <div class="bg-emerald-500 p-1.5 rounded-lg text-white animate-pulse-slow"><i data-lucide="calendar-clock" class="w-4 h-4"></i></div>
+                            <div class="bg-emerald-600 dark:bg-emerald-500 p-2 rounded-lg text-white animate-pulse-slow"><i data-lucide="calendar-clock" class="w-5 h-5"></i></div>
                             <div>
-                                <p class="text-[9px] text-emerald-600 dark:text-emerald-400 font-bold uppercase leading-none mb-0.5">Kalan Gün</p>
-                                <p class="text-xl font-black text-emerald-700 dark:text-emerald-500 leading-none" id="remainingWorkDaysDisplay">0</p>
+                                <p class="text-[10px] text-emerald-800 dark:text-emerald-400 font-bold uppercase leading-none mb-0.5">Kalan Gün</p>
+                                <p class="text-2xl font-black text-emerald-800 dark:text-emerald-500 leading-none" id="remainingWorkDaysDisplay">0</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Dark Mode Toggle -->
-                    <button onclick="toggleTheme()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all shadow-sm active:scale-95">
-                        <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
-                        <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                    <button onclick="toggleTheme()" class="bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 p-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all shadow-sm active:scale-95">
+                        <i data-lucide="moon" class="w-6 h-6 block dark:hidden"></i>
+                        <i data-lucide="sun" class="w-6 h-6 hidden dark:block"></i>
                     </button>
                 </div>
             </div>
-            <div class="flex gap-8 text-sm font-semibold text-slate-500 dark:text-slate-400">
+            <div class="flex gap-10 text-base font-semibold text-slate-600 dark:text-slate-400">
                 <button onclick="switchTab('performance')" id="tab-performance" class="pb-3 tab-active transition-all">Performans Analizi</button>
                 <button onclick="switchTab('goals')" id="tab-goals" class="pb-3 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">Veri & Hedef Yönetimi</button>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto p-4 md:p-6 space-y-8">
+    <main class="max-w-7xl mx-auto p-4 md:p-6 space-y-10">
         
         <!-- PERFORMANS BÖLÜMÜ -->
-        <div id="performanceSection" class="space-y-8 animate-in fade-in duration-500">
+        <div id="performanceSection" class="space-y-10 animate-in fade-in duration-500">
             
             <!-- ÜST ANALİZ PANELLERİ -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 
                 <!-- HACİM ANALİZ KARTI -->
-                <div class="bg-white dark:bg-slate-800 rounded-3xl p-1 border border-slate-200 dark:border-slate-700 card-shadow relative overflow-hidden group transition-colors duration-300">
+                <div class="bg-slate-50 dark:bg-slate-800 rounded-3xl p-1 border border-slate-300 dark:border-slate-700 card-shadow relative overflow-hidden group transition-colors duration-300">
                     <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <i data-lucide="coins" class="w-24 h-24 text-indigo-600 dark:text-indigo-400"></i>
+                        <i data-lucide="coins" class="w-32 h-32 text-indigo-600 dark:text-indigo-400"></i>
                     </div>
-                    <div class="p-6 pb-2">
-                        <h3 class="text-indigo-900 dark:text-indigo-100 font-black text-lg flex items-center gap-2">
-                            <i data-lucide="trending-up" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i> HACİM ANALİZİ
+                    <div class="p-8 pb-4">
+                        <h3 class="text-indigo-900 dark:text-indigo-100 font-black text-xl flex items-center gap-2">
+                            <i data-lucide="trending-up" class="w-6 h-6 text-indigo-600 dark:text-indigo-400"></i> HACİM ANALİZİ
                         </h3>
                         
-                        <div class="flex justify-between items-end mt-2">
+                        <div class="flex justify-between items-end mt-4">
                             <div class="flex items-baseline gap-2">
-                                <span class="text-4xl font-black text-slate-800 dark:text-white" id="mainHGO">0%</span>
-                                <span class="text-sm font-bold text-slate-400 dark:text-slate-500 hidden sm:inline">Genel Gerçekleşme</span>
+                                <span class="text-5xl font-black text-slate-800 dark:text-white" id="mainHGO">0%</span>
+                                <span class="text-base font-bold text-slate-500 dark:text-slate-500 hidden sm:inline">Genel Gerçekleşme</span>
                             </div>
                             <div class="text-right">
-                                <div class="text-lg font-black text-slate-800 dark:text-white leading-none" id="headerRealized">0 ₺</div>
-                                <div class="text-[10px] font-bold text-slate-400 dark:text-slate-500 mt-1">/ <span id="headerTarget">0 ₺</span> Hedef</div>
+                                <div class="text-2xl font-black text-slate-800 dark:text-white leading-none" id="headerRealized">0 ₺</div>
+                                <div class="text-xs font-bold text-slate-600 dark:text-slate-500 mt-1">/ <span id="headerTarget">0 ₺</span> Hedef</div>
                             </div>
                         </div>
 
-                        <div class="mt-3 w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
-                            <div id="mainHGOBar" class="bg-indigo-600 dark:bg-indigo-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        <div class="mt-4 w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden">
+                            <div id="mainHGOBar" class="bg-indigo-600 dark:bg-indigo-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-2 gap-px bg-slate-100 dark:bg-slate-700 mt-4 rounded-b-[1.3rem] overflow-hidden">
-                        <div class="bg-indigo-50/50 dark:bg-indigo-900/20 p-5 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors" id="dailySalesBox">
-                            <p class="text-[10px] font-black text-indigo-400 dark:text-indigo-300 uppercase tracking-wider mb-1 flex items-center gap-1">
-                                <i data-lucide="calendar" class="w-3 h-3"></i> GÜNLÜK DURUM
+                    <div class="grid grid-cols-2 gap-px bg-slate-200 dark:bg-slate-700 mt-4 rounded-b-[1.3rem] overflow-hidden">
+                        <div class="bg-indigo-50 dark:bg-indigo-900/20 p-6 hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors" id="dailySalesBox">
+                            <p class="text-xs font-black text-indigo-700 dark:text-indigo-300 uppercase tracking-wider mb-2 flex items-center gap-1">
+                                <i data-lucide="calendar" class="w-4 h-4"></i> GÜNLÜK DURUM
                             </p>
-                            <div class="flex items-baseline gap-2 flex-wrap">
-                                <p class="text-xl font-black text-indigo-800 dark:text-indigo-200" id="mainDailyRealized">0 ₺</p>
-                                <span class="text-xs font-bold text-indigo-400 dark:text-indigo-500 flex items-center">/ <span id="mainDailyNeeded" class="text-sm text-indigo-600 dark:text-indigo-400 mx-1">0</span> Hedef</span>
+                            <div class="flex flex-col gap-1">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-indigo-600 dark:text-indigo-500 font-bold">Hedef:</span>
+                                    <span id="mainDailyNeeded" class="font-bold text-indigo-900 dark:text-indigo-300">0</span>
+                                </div>
+                                <div class="flex justify-between text-lg items-center">
+                                    <span class="text-indigo-600 dark:text-indigo-500 font-bold text-xs">Gerçekleşen:</span>
+                                    <span class="font-black text-indigo-900 dark:text-indigo-200" id="mainDailyRealized">0 ₺</span>
+                                </div>
                             </div>
-                            <p class="text-[10px] text-indigo-400 dark:text-indigo-500 mt-1 font-medium" id="mainDailyStatusText">Bugün yapılan / Gereken</p>
                         </div>
-                        <div class="bg-emerald-50/50 dark:bg-emerald-900/20 p-5 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition-colors">
-                            <p class="text-[10px] font-black text-emerald-400 dark:text-emerald-300 uppercase tracking-wider mb-1">AY SONU POTANSİYEL</p>
-                            <div class="flex items-baseline gap-2">
-                                <p class="text-xl font-black text-emerald-700 dark:text-emerald-400" id="mainSalesPot">0 ₺</p>
-                                <span class="text-xs font-bold text-emerald-600 dark:text-emerald-500" id="mainSalesPotPercent">(0%)</span>
+                        <div class="bg-emerald-50 dark:bg-emerald-900/20 p-6 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors">
+                            <p class="text-xs font-black text-emerald-700 dark:text-emerald-300 uppercase tracking-wider mb-2">AY SONU POTANSİYEL</p>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-2xl font-black text-emerald-800 dark:text-emerald-400 leading-none" id="mainSalesPot">0 ₺</span>
+                                <span class="text-sm font-bold text-emerald-700 dark:text-emerald-500" id="mainSalesPotPercent">(0%)</span>
                             </div>
-                            <p class="text-[10px] text-emerald-500 dark:text-emerald-600 mt-1 font-medium">Mevcut tempoya göre</p>
+                            <p class="text-[11px] text-emerald-700 dark:text-emerald-600 mt-2 font-medium">Mevcut tempoya göre</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- EG ANALİZ KARTI -->
-                <div class="bg-white dark:bg-slate-800 rounded-3xl p-1 border border-slate-200 dark:border-slate-700 card-shadow relative overflow-hidden group transition-colors duration-300">
+                <div class="bg-slate-50 dark:bg-slate-800 rounded-3xl p-1 border border-slate-300 dark:border-slate-700 card-shadow relative overflow-hidden group transition-colors duration-300">
                     <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <i data-lucide="target" class="w-24 h-24 text-amber-500"></i>
+                        <i data-lucide="target" class="w-32 h-32 text-amber-500"></i>
                     </div>
-                    <div class="p-6 pb-2">
-                        <h3 class="text-amber-900 dark:text-amber-100 font-black text-lg flex items-center gap-2">
-                            <i data-lucide="focus" class="w-5 h-5 text-amber-500"></i> EG (ADET) ANALİZİ
+                    <div class="p-8 pb-4">
+                        <h3 class="text-amber-900 dark:text-amber-100 font-black text-xl flex items-center gap-2">
+                            <i data-lucide="focus" class="w-6 h-6 text-amber-500"></i> EG (ADET) ANALİZİ
                         </h3>
-                        <div class="flex items-baseline gap-2 mt-2">
-                            <span class="text-4xl font-black text-slate-800 dark:text-white" id="mainEGReal">0</span>
-                            <span class="text-sm font-bold text-slate-400 dark:text-slate-500">/ <span id="mainEGTarget">0</span> Hedef</span>
+                        <div class="flex items-baseline gap-2 mt-4">
+                            <span class="text-5xl font-black text-slate-800 dark:text-white" id="mainEGReal">0</span>
+                            <span class="text-base font-bold text-slate-500 dark:text-slate-500">/ <span id="mainEGTarget">0</span> Hedef</span>
                         </div>
-                        <div class="mt-3 w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
-                            <div id="mainEGBar" class="bg-amber-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        <div class="mt-4 w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden">
+                            <div id="mainEGBar" class="bg-amber-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-2 gap-px bg-slate-100 dark:bg-slate-700 mt-4 rounded-b-[1.3rem] overflow-hidden">
-                        <div class="bg-amber-50/50 dark:bg-amber-900/20 p-5 hover:bg-amber-50 dark:hover:bg-amber-900/30 transition-colors" id="dailyEGBox">
-                            <p class="text-[10px] font-black text-amber-400 dark:text-amber-300 uppercase tracking-wider mb-1 flex items-center gap-1">
-                                <i data-lucide="calendar" class="w-3 h-3"></i> GÜNLÜK DURUM
+                    <div class="grid grid-cols-2 gap-px bg-slate-200 dark:bg-slate-700 mt-4 rounded-b-[1.3rem] overflow-hidden">
+                        <div class="bg-amber-50 dark:bg-amber-900/20 p-6 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors" id="dailyEGBox">
+                            <p class="text-xs font-black text-amber-700 dark:text-amber-300 uppercase tracking-wider mb-2 flex items-center gap-1">
+                                <i data-lucide="calendar" class="w-4 h-4"></i> GÜNLÜK DURUM
                             </p>
-                            <div class="flex items-baseline gap-2 flex-wrap">
-                                <p class="text-xl font-black text-amber-800 dark:text-amber-200" id="mainDailyEGRealized">0</p>
-                                <span class="text-xs font-bold text-amber-500 flex items-center">/ <span id="mainDailyEGNeeded" class="text-sm text-amber-700 dark:text-amber-400 mx-1">0</span> Hedef</span>
+                            <div class="flex flex-col gap-1">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-amber-700 dark:text-amber-500 font-bold">Hedef:</span>
+                                    <span id="mainDailyEGNeeded" class="font-bold text-amber-900 dark:text-amber-400">0</span>
+                                </div>
+                                <div class="flex justify-between text-lg items-center">
+                                    <span class="text-amber-700 dark:text-amber-500 font-bold text-xs">Gerçekleşen:</span>
+                                    <span class="font-black text-amber-900 dark:text-amber-200" id="mainDailyEGRealized">0</span>
+                                </div>
                             </div>
-                            <p class="text-[10px] text-amber-500 dark:text-amber-600 mt-1 font-medium">Bugün yapılan / Gereken</p>
                         </div>
-                        <div class="bg-violet-50/50 dark:bg-violet-900/20 p-5 hover:bg-violet-50 dark:hover:bg-violet-900/30 transition-colors">
-                            <p class="text-[10px] font-black text-violet-400 dark:text-violet-300 uppercase tracking-wider mb-1">AY SONU POTANSİYEL</p>
-                            <p class="text-xl font-black text-violet-700 dark:text-violet-400" id="mainEGPot">0</p>
-                            <p class="text-[10px] text-violet-500 dark:text-violet-600 mt-1 font-medium">Tahmini Kapanış</p>
+                        <div class="bg-violet-50 dark:bg-violet-900/20 p-6 hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-colors">
+                            <p class="text-xs font-black text-violet-700 dark:text-violet-300 uppercase tracking-wider mb-2">AY SONU POTANSİYEL</p>
+                            <p class="text-2xl font-black text-violet-800 dark:text-violet-400" id="mainEGPot">0</p>
+                            <p class="text-[11px] text-violet-700 dark:text-violet-600 mt-2 font-medium">Tahmini Kapanış</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- ÖZET TABLO -->
-            <div class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 overflow-hidden card-shadow transition-colors duration-300">
-                <div class="p-5 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex justify-between items-center">
-                    <h3 class="font-bold text-slate-800 dark:text-slate-100 uppercase text-xs tracking-widest flex items-center gap-2">
-                        <i data-lucide="list" class="w-4 h-4"></i> Performans Sıralaması
+            <div class="bg-slate-50 dark:bg-slate-800 rounded-3xl border border-slate-300 dark:border-slate-700 overflow-hidden card-shadow transition-colors duration-300">
+                <div class="p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/50 flex justify-between items-center">
+                    <h3 class="font-bold text-slate-800 dark:text-slate-100 uppercase text-sm tracking-widest flex items-center gap-2">
+                        <i data-lucide="list" class="w-5 h-5"></i> Performans Sıralaması
                     </h3>
-                    <span class="text-[10px] bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-1 rounded font-bold">CANLI VERİ</span>
+                    <span class="text-xs bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded font-bold">CANLI VERİ</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-slate-50/50 dark:bg-slate-800/50 text-slate-400 dark:text-slate-500 text-[9px] uppercase tracking-wider font-bold">
-                                <th class="px-6 py-4">Danışman</th>
-                                <th class="px-6 py-4 text-center">HGO %</th>
-                                <th class="px-6 py-4 text-center text-indigo-600 dark:text-indigo-400 bg-indigo-50/30 dark:bg-indigo-900/20">Bugün (Hacim)</th>
-                                <th class="px-6 py-4 text-center text-amber-600 dark:text-amber-400 bg-amber-50/30 dark:bg-amber-900/20">Bugün (EG)</th>
-                                <th class="px-6 py-4 text-center hidden md:table-cell">Tahmini Kapanış %</th>
-                                <th class="px-6 py-4 text-center">Durum</th>
+                            <tr class="bg-slate-200 dark:bg-slate-900/50 text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider font-bold">
+                                <th class="px-6 py-5">Danışman</th>
+                                <th class="px-6 py-5 text-center">HGO %</th>
+                                <th class="px-6 py-5 text-left w-48 text-indigo-800 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-900/20">Bugün (Hacim)</th>
+                                <th class="px-6 py-5 text-left w-48 text-amber-800 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/20">Bugün (EG)</th>
+                                <th class="px-6 py-5 text-center hidden md:table-cell">Tahmini Kapanış %</th>
+                                <th class="px-6 py-5 text-center">Durum</th>
                             </tr>
                         </thead>
-                        <tbody id="performanceTableBody" class="text-xs divide-y divide-slate-100 dark:divide-slate-700"></tbody>
+                        <tbody id="performanceTableBody" class="text-sm divide-y divide-slate-200 dark:divide-slate-700"></tbody>
                     </table>
                 </div>
             </div>
 
             <!-- KİŞİ KARTLARI -->
             <div>
-                <h3 class="text-xl font-extrabold text-slate-800 dark:text-slate-100 mb-6 flex items-center gap-2">
-                    <i data-lucide="users" class="text-indigo-600 dark:text-indigo-400"></i> Bireysel Danışman Kartları
+                <h3 class="text-2xl font-extrabold text-slate-800 dark:text-slate-100 mb-8 flex items-center gap-3">
+                    <i data-lucide="users" class="text-indigo-600 dark:text-indigo-400 w-8 h-8"></i> Bireysel Danışman Kartları
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="performanceCards"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="performanceCards"></div>
             </div>
         </div>
 
         <!-- YÖNETİM BÖLÜMÜ -->
-        <div id="goalsSection" class="hidden space-y-8 animate-in slide-in-from-right duration-500">
-            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
-                <h2 class="text-xl font-extrabold text-slate-800 dark:text-slate-100 uppercase tracking-tighter">Veri Giriş Paneli</h2>
-                <button onclick="toggleModal('memberModal', true)" class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-5 py-2.5 rounded-2xl flex items-center gap-2 text-sm font-bold shadow-lg shadow-indigo-200 dark:shadow-none transition-all active:scale-95">
-                    <i data-lucide="user-plus" class="w-4 h-4"></i><span>Danışman Ekle</span>
-                </button>
+        <div id="goalsSection" class="hidden space-y-10 animate-in slide-in-from-right duration-500">
+            <div class="flex items-center justify-between border-b border-slate-300 dark:border-slate-700 pb-5">
+                <h2 class="text-2xl font-extrabold text-slate-800 dark:text-slate-100 uppercase tracking-tighter">Veri Giriş Paneli</h2>
+                <div class="flex items-center gap-2">
+                    <div class="text-[10px] text-slate-500 font-medium hidden md:block bg-yellow-50 dark:bg-yellow-900/20 px-3 py-1.5 rounded-lg border border-yellow-100 dark:border-yellow-900/30">
+                        <i data-lucide="info" class="w-3 h-3 inline mr-1"></i> İzin girerek günlük hedefleri optimize edebilirsiniz.
+                    </div>
+                    <button onclick="toggleModal('memberModal', true)" class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-6 py-3 rounded-2xl flex items-center gap-2 text-sm font-bold shadow-lg shadow-indigo-200 dark:shadow-none transition-all active:scale-95">
+                        <i data-lucide="user-plus" class="w-5 h-5"></i><span>Danışman Ekle</span>
+                    </button>
+                </div>
             </div>
-            <div class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden transition-colors duration-300">
-                <div class="p-4 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-100 dark:border-amber-900/30 text-amber-700 dark:text-amber-400 text-xs font-medium flex items-center gap-2">
-                    <i data-lucide="alert-circle" class="w-4 h-4"></i>
+            <div class="bg-slate-50 dark:bg-slate-800 rounded-3xl border border-slate-300 dark:border-slate-700 shadow-sm overflow-hidden transition-colors duration-300">
+                <div class="p-5 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-100 dark:border-amber-900/30 text-amber-800 dark:text-amber-400 text-sm font-medium flex items-center gap-2">
+                    <i data-lucide="alert-circle" class="w-5 h-5"></i>
                     Not: Hayalet (Online) hesaplar performans listelerinde görünmez ancak ana toplam hedefe dahildir.
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse min-w-[1000px]">
+                    <table class="w-full text-left border-collapse min-w-[1200px]">
                         <thead>
-                            <tr class="bg-slate-50 dark:bg-slate-800 text-slate-400 dark:text-slate-500 text-[9px] uppercase font-bold">
-                                <th class="px-6 py-4 sticky left-0 bg-slate-50 dark:bg-slate-800 z-10">İsim</th>
-                                <th class="px-4 py-4">Top. Satış</th>
-                                <th class="px-4 py-4">Top. Hedef</th>
-                                <th class="px-4 py-4 bg-indigo-50/50 dark:bg-indigo-900/20 text-indigo-500 dark:text-indigo-300">Bugün Satış</th>
-                                <th class="px-4 py-4">Top. EG</th>
-                                <th class="px-4 py-4">Top. EG Hedef</th>
-                                <th class="px-4 py-4 bg-amber-50/50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-300">Bugün EG</th>
-                                <th class="px-6 py-4 text-center">Aksiyon</th>
+                            <tr class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-500 text-xs uppercase font-bold">
+                                <th class="px-6 py-5 sticky left-0 bg-slate-100 dark:bg-slate-800 z-10">İsim</th>
+                                <th class="px-4 py-5">Top. Satış</th>
+                                <th class="px-4 py-5">Top. Hedef</th>
+                                <th class="px-4 py-5 bg-indigo-100 dark:bg-indigo-900/20 text-indigo-800 dark:text-indigo-300">Bugün Satış</th>
+                                <th class="px-4 py-5">Top. EG</th>
+                                <th class="px-4 py-5">Top. EG Hedef</th>
+                                <th class="px-4 py-5 bg-amber-100 dark:bg-amber-900/20 text-amber-800 dark:text-amber-300">Bugün EG</th>
+                                <th class="px-4 py-5 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-center">İzin (Gün)</th>
+                                <th class="px-6 py-5 text-center">Aksiyon</th>
                             </tr>
                         </thead>
-                        <tbody id="managementTableBody" class="divide-y divide-slate-100 dark:divide-slate-700"></tbody>
+                        <tbody id="managementTableBody" class="divide-y divide-slate-200 dark:divide-slate-700 text-sm"></tbody>
                     </table>
                 </div>
             </div>
@@ -256,35 +270,35 @@
 
     <!-- MODAL -->
     <div id="memberModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-        <div class="bg-white dark:bg-slate-800 rounded-[2rem] w-full max-w-md p-8 shadow-2xl animate-in zoom-in duration-200">
-            <h3 class="font-black text-2xl text-slate-800 dark:text-white mb-6 tracking-tight">Yeni Danışman Kaydı</h3>
-            <form id="memberForm" class="space-y-5">
+        <div class="bg-slate-50 dark:bg-slate-800 rounded-[2rem] w-full max-w-lg p-10 shadow-2xl animate-in zoom-in duration-200">
+            <h3 class="font-black text-3xl text-slate-800 dark:text-white mb-8 tracking-tight">Yeni Danışman Kaydı</h3>
+            <form id="memberForm" class="space-y-6">
                 <div>
-                    <label class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1">Tam İsim</label>
-                    <input type="text" id="memberName" placeholder="Örn: Ahmet Yılmaz" required class="w-full px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all">
+                    <label class="text-xs font-black text-slate-600 dark:text-slate-500 uppercase tracking-widest ml-1">Tam İsim</label>
+                    <input type="text" id="memberName" placeholder="Örn: Ahmet Yılmaz" required class="w-full px-6 py-4 mt-2 rounded-2xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 dark:text-white outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-lg">
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-6">
                     <div>
-                        <label class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1">Satış Hedefi (₺)</label>
-                        <input type="number" id="memberSalesTarget" value="1500000" class="w-full px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white outline-none focus:ring-4 focus:ring-indigo-500/10">
+                        <label class="text-xs font-black text-slate-600 dark:text-slate-500 uppercase tracking-widest ml-1">Satış Hedefi (₺)</label>
+                        <input type="number" id="memberSalesTarget" value="1500000" class="w-full px-6 py-4 mt-2 rounded-2xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 dark:text-white outline-none focus:ring-4 focus:ring-indigo-500/10 text-lg">
                     </div>
                     <div>
-                        <label class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1">EG Hedefi</label>
-                        <input type="number" id="memberEGTarget" value="20" class="w-full px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white outline-none focus:ring-4 focus:ring-indigo-500/10">
+                        <label class="text-xs font-black text-slate-600 dark:text-slate-500 uppercase tracking-widest ml-1">EG Hedefi</label>
+                        <input type="number" id="memberEGTarget" value="20" class="w-full px-6 py-4 mt-2 rounded-2xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 dark:text-white outline-none focus:ring-4 focus:ring-indigo-500/10 text-lg">
                     </div>
                 </div>
                 
-                <div class="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl flex items-center gap-3">
-                    <input type="checkbox" id="memberGhost" class="w-5 h-5 accent-indigo-600 rounded cursor-pointer">
-                    <label for="memberGhost" class="text-xs font-bold text-slate-600 dark:text-slate-300 cursor-pointer select-none">
+                <div class="bg-slate-200 dark:bg-slate-700/50 p-4 rounded-2xl flex items-center gap-4">
+                    <input type="checkbox" id="memberGhost" class="w-6 h-6 accent-indigo-600 rounded cursor-pointer">
+                    <label for="memberGhost" class="text-sm font-bold text-slate-700 dark:text-slate-300 cursor-pointer select-none">
                         Bu bir Hayalet (Online) hesaptır
-                        <span class="block text-[9px] text-slate-400 dark:text-slate-500 font-normal">Listelerde görünmez, sadece toplam hedefe eklenir.</span>
+                        <span class="block text-xs text-slate-500 dark:text-slate-500 font-normal mt-1">Listelerde görünmez, sadece toplam hedefe eklenir.</span>
                     </label>
                 </div>
 
-                <div class="pt-4 flex flex-col gap-3">
-                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-black py-4 rounded-2xl shadow-xl shadow-indigo-100 dark:shadow-none transition-all active:scale-95">SİSTEME KAYDET</button>
-                    <button type="button" onclick="toggleModal('memberModal', false)" class="w-full text-slate-400 dark:text-slate-500 font-bold text-sm py-2 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">Vazgeç</button>
+                <div class="pt-6 flex flex-col gap-4">
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-black py-5 rounded-2xl shadow-xl shadow-indigo-100 dark:shadow-none transition-all active:scale-95 text-lg">SİSTEME KAYDET</button>
+                    <button type="button" onclick="toggleModal('memberModal', false)" class="w-full text-slate-500 dark:text-slate-500 font-bold text-base py-2 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Vazgeç</button>
                 </div>
             </form>
         </div>
@@ -346,9 +360,13 @@
 
         // --- MATEMATİKSEL FONKSİYONLAR ---
         const getHGO = (r, t) => t ? parseFloat(((r / t) * 100).toFixed(1)) : 0;
-        // İSTENİLEN FORMÜL: (Girilen toplam satış / geçen iş günü) x Toplam iş günü sayısı
         const getPot = (r) => Math.floor((r / passedWorkDays) * totalWorkDays);
-        const getDailyNeed = (r, t) => Math.max(0, Math.ceil((t - r) / remainingWorkDays));
+        
+        // GÜNCELLENMİŞ FONKSİYON: İzin günlerini hesaba katar
+        const getDailyNeed = (r, t, leave = 0) => {
+            const effectiveDays = Math.max(1, remainingWorkDays - leave);
+            return Math.max(0, Math.ceil((t - r) / effectiveDays));
+        }
 
         // --- DARK MODE LOGIC ---
         window.toggleTheme = () => {
@@ -362,7 +380,6 @@
             }
         };
 
-        // Init theme
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
@@ -386,7 +403,6 @@
             let totalSalesRealized = 0, totalSalesTarget = 0, totalDailySalesRealized = 0;
             let totalEGRealized = 0, totalEGTarget = 0, totalDailyEGRealized = 0;
             
-            // Tüm veriler üzerinden toplam hesaplama (Hayalet hesaplar dahil)
             teamPerformance.forEach(p => {
                 totalSalesRealized += p.salesRealized || 0; 
                 totalSalesTarget += p.salesTarget || 0; 
@@ -397,64 +413,76 @@
                 totalDailyEGRealized += p.dailyEG || 0;
             });
 
-            // Listeleme için hayalet olmayanları filtrele
+            const teamSalesHGO = getHGO(totalSalesRealized, totalSalesTarget);
+            // Takım için genel ortalama hesaplarken izin düşmüyoruz, genel iş günü baz alınıyor. 
+            // Veya takım toplamı için de kişilerin izinlerini toplayıp düşebiliriz ama bu yanıltıcı olabilir. 
+            // Takım hedefi = Genel Kalan Gün üzerinden hesaplanması daha doğru bir "Takım Hızı" verir.
+            const teamSalesDailyNeed = getDailyNeed(totalSalesRealized, totalSalesTarget, 0); 
+            const teamSalesPotential = getPot(totalSalesRealized);
+            const teamSalesPotentialPercent = getHGO(teamSalesPotential, totalSalesTarget);
+
+            const teamEGDailyNeed = getDailyNeed(totalEGRealized, totalEGTarget, 0);
+            const teamEGPotential = getPot(totalEGRealized);
+
             const visibleMembers = teamPerformance.filter(p => !p.isGhost);
             const sorted = visibleMembers.sort((a,b) => getHGO(b.salesRealized, b.salesTarget) - getHGO(a.salesRealized, a.salesTarget));
 
             // ÖZET TABLO RENDER
             tbody.innerHTML = sorted.map(p => {
+                const leave = p.leaveDays || 0;
                 const hgo = getHGO(p.salesRealized, p.salesTarget);
-                const dailyNeed = getDailyNeed(p.salesRealized, p.salesTarget);
+                // KİŞİSEL İZİN HESABA KATILIYOR
+                const dailyNeed = getDailyNeed(p.salesRealized, p.salesTarget, leave);
                 const dailyRealized = p.dailySales || 0;
-                const dailyEGNeed = getDailyNeed(p.egCurrent, p.egTarget);
+                const dailyEGNeed = getDailyNeed(p.egCurrent, p.egTarget, leave);
                 const dailyEGRealized = p.dailyEG || 0;
-                
                 const potential = getPot(p.salesRealized);
                 const potentialPercent = getHGO(potential, p.salesTarget);
                 
                 return `
-                    <tr class="table-row border-b border-slate-50 dark:border-slate-800 last:border-0">
-                        <td class="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2">
-                            <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center text-[10px]">${p.name[0]}</div>
+                    <tr class="table-row border-b border-slate-200 dark:border-slate-800 last:border-0 transition-colors">
+                        <td class="px-6 py-5 font-bold text-slate-800 dark:text-slate-100 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center text-xs font-bold">${p.name[0]}</div>
                             ${p.name}
                         </td>
-                        <td class="px-6 py-4 text-center font-black ${hgo>=100 ? 'text-indigo-600 dark:text-indigo-400' : (hgo>=80?'text-emerald-600 dark:text-emerald-400':'text-amber-500 dark:text-amber-400')}">${hgo}%</td>
+                        <td class="px-6 py-5 text-center font-black text-lg ${hgo>=100 ? 'text-indigo-600 dark:text-indigo-400' : (hgo>=80?'text-emerald-600 dark:text-emerald-400':'text-amber-500 dark:text-amber-400')}">${hgo}%</td>
                         
-                        <!-- Günlük Satış Karşılaştırma -->
-                        <td class="px-6 py-4 text-center bg-indigo-50/20 dark:bg-indigo-900/10">
-                            <div class="flex flex-col items-center">
-                                <span class="text-xs font-black ${dailyRealized >= dailyNeed ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-700 dark:text-slate-300'}">${dailyRealized.toLocaleString()}</span>
-                                <span class="text-[9px] text-slate-400 dark:text-slate-500 font-bold">/ ${dailyNeed.toLocaleString()}</span>
+                        <td class="px-6 py-5 bg-indigo-100 dark:bg-indigo-900/10 align-middle">
+                            <div class="flex flex-col gap-1 w-full">
+                                <div class="flex justify-between items-center text-xs text-indigo-600 dark:text-indigo-400">
+                                    <span class="font-semibold flex items-center gap-1">Hedef: ${leave > 0 ? `<i data-lucide="clock" class="w-3 h-3 text-indigo-400"></i>` : ''}</span>
+                                    <span>${dailyNeed.toLocaleString()}</span>
+                                </div>
+                                <div class="flex justify-between items-center font-bold text-indigo-900 dark:text-indigo-200">
+                                    <span class="text-xs opacity-70">Gerçekleşen:</span>
+                                    <span class="${dailyRealized >= dailyNeed ? 'text-emerald-600 dark:text-emerald-400' : ''}">${dailyRealized.toLocaleString()}</span>
+                                </div>
                             </div>
                         </td>
 
-                        <!-- Günlük EG Karşılaştırma -->
-                        <td class="px-6 py-4 text-center bg-amber-50/20 dark:bg-amber-900/10">
-                            <div class="flex flex-col items-center">
-                                <span class="text-xs font-black ${dailyEGRealized >= dailyEGNeed ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-700 dark:text-slate-300'}">${dailyEGRealized}</span>
-                                <span class="text-[9px] text-slate-400 dark:text-slate-500 font-bold">/ ${dailyEGNeed}</span>
+                        <td class="px-6 py-5 bg-amber-100 dark:bg-amber-900/10 align-middle">
+                            <div class="flex flex-col gap-1 w-full">
+                                <div class="flex justify-between items-center text-xs text-amber-700 dark:text-amber-500">
+                                    <span class="font-semibold flex items-center gap-1">Hedef: ${leave > 0 ? `<i data-lucide="clock" class="w-3 h-3 text-amber-500"></i>` : ''}</span>
+                                    <span>${dailyEGNeed}</span>
+                                </div>
+                                <div class="flex justify-between items-center font-bold text-slate-800 dark:text-slate-200">
+                                    <span class="text-xs opacity-70">Gerçekleşen:</span>
+                                    <span class="${dailyEGRealized >= dailyEGNeed ? 'text-emerald-600 dark:text-emerald-400' : ''}">${dailyEGRealized}</span>
+                                </div>
                             </div>
                         </td>
 
-                        <td class="px-6 py-4 text-center font-bold text-slate-400 dark:text-slate-500 text-[11px] hidden md:table-cell">%${potentialPercent}</td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="px-2 py-1 rounded-lg text-[9px] font-black uppercase ${hgo>=100 ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : (hgo>=80?'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300':'bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-300')}">
+                        <td class="px-6 py-5 text-center font-bold text-slate-500 dark:text-slate-400 text-sm hidden md:table-cell">%${potentialPercent}</td>
+                        <td class="px-6 py-5 text-center">
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-black uppercase ${hgo>=100 ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : (hgo>=80?'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300':'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300')}">
                                 ${hgo>=100 ? 'YILDIZ' : (hgo>=80?'SÜPER':'TAKiP')}
                             </span>
                         </td>
                     </tr>`;
             }).join('');
 
-            // --- ÜST BİLGİ KARTLARINI GÜNCELLEME ---
-            const teamSalesHGO = getHGO(totalSalesRealized, totalSalesTarget);
-            const teamSalesDailyNeed = getDailyNeed(totalSalesRealized, totalSalesTarget);
-            const teamSalesPotential = getPot(totalSalesRealized);
-            const teamSalesPotentialPercent = getHGO(teamSalesPotential, totalSalesTarget);
-
-            const teamEGDailyNeed = getDailyNeed(totalEGRealized, totalEGTarget);
-            const teamEGPotential = getPot(totalEGRealized);
-
-            // HACİM KARTI GÜNCELLEME
+            // --- KARTLAR ---
             document.getElementById('mainHGO').textContent = teamSalesHGO + '%';
             document.getElementById('mainHGOBar').style.width = Math.min(teamSalesHGO, 100) + '%';
             document.getElementById('headerRealized').textContent = totalSalesRealized.toLocaleString() + ' ₺';
@@ -462,129 +490,149 @@
             document.getElementById('mainSalesPot').textContent = teamSalesPotential.toLocaleString() + ' ₺';
             document.getElementById('mainSalesPotPercent').textContent = `(%${teamSalesPotentialPercent})`;
             
-            // Hacim Günlük Durum
             document.getElementById('mainDailyRealized').textContent = totalDailySalesRealized.toLocaleString() + ' ₺';
             document.getElementById('mainDailyNeeded').textContent = teamSalesDailyNeed.toLocaleString() + ' ₺';
             
-            // Renk ve Stil Ayarları (Hacim Günlük)
             const salesBox = document.getElementById('dailySalesBox');
             if(totalDailySalesRealized >= teamSalesDailyNeed) {
-                salesBox.className = "bg-emerald-100 dark:bg-emerald-900/30 p-5 transition-colors border-l-4 border-emerald-500";
+                salesBox.className = "bg-emerald-100 dark:bg-emerald-900/30 p-6 transition-colors border-l-4 border-emerald-500";
                 document.getElementById('mainDailyRealized').className = "text-xl font-black text-emerald-800 dark:text-emerald-400";
             } else {
-                salesBox.className = "bg-indigo-50/50 dark:bg-indigo-900/20 p-5 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors";
+                salesBox.className = "bg-indigo-50 dark:bg-indigo-900/20 p-6 hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors";
                 document.getElementById('mainDailyRealized').className = "text-xl font-black text-indigo-800 dark:text-indigo-300";
             }
 
-            // EG KARTI GÜNCELLEME
             document.getElementById('mainEGReal').textContent = totalEGRealized;
             document.getElementById('mainEGTarget').textContent = totalEGTarget;
             document.getElementById('mainEGBar').style.width = Math.min((totalEGRealized/totalEGTarget)*100, 100) + '%';
             document.getElementById('mainEGPot').textContent = teamEGPotential;
             
-            // EG Günlük Durum
             document.getElementById('mainDailyEGRealized').textContent = totalDailyEGRealized;
             document.getElementById('mainDailyEGNeeded').textContent = teamEGDailyNeed;
 
-            // Renk ve Stil Ayarları (EG Günlük)
             const egBox = document.getElementById('dailyEGBox');
             if(totalDailyEGRealized >= teamEGDailyNeed) {
-                egBox.className = "bg-emerald-100 dark:bg-emerald-900/30 p-5 transition-colors border-l-4 border-emerald-500";
+                egBox.className = "bg-emerald-100 dark:bg-emerald-900/30 p-6 transition-colors border-l-4 border-emerald-500";
                 document.getElementById('mainDailyEGRealized').className = "text-xl font-black text-emerald-800 dark:text-emerald-400";
             } else {
-                egBox.className = "bg-amber-50/50 dark:bg-amber-900/20 p-5 hover:bg-amber-50 dark:hover:bg-amber-900/30 transition-colors";
+                egBox.className = "bg-amber-50 dark:bg-amber-900/20 p-6 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors";
                 document.getElementById('mainDailyEGRealized').className = "text-xl font-black text-amber-800 dark:text-amber-300";
             }
 
-
-            // --- KİŞİ KARTLARI DETAYLI RENDER (Visible Sadece) ---
+            // KİŞİ KARTLARI DETAY
             cards.innerHTML = sorted.map(p => {
+                const leave = p.leaveDays || 0;
                 const hgo = getHGO(p.salesRealized, p.salesTarget);
-                const dailyNeed = getDailyNeed(p.salesRealized, p.salesTarget);
+                // KİŞİSEL İZİN HESABA KATILIYOR
+                const dailyNeed = getDailyNeed(p.salesRealized, p.salesTarget, leave);
                 const dailyRealized = p.dailySales || 0;
                 
                 const potential = getPot(p.salesRealized);
-                const potentialPercent = getHGO(potential, p.salesTarget); // Kişi bazlı potansiyel yüzdesi
-                const egDaily = getDailyNeed(p.egCurrent, p.egTarget);
+                const potentialPercent = getHGO(potential, p.salesTarget);
+                const egDaily = getDailyNeed(p.egCurrent, p.egTarget, leave);
                 const egDailyRealized = p.dailyEG || 0;
                 const egPot = getPot(p.egCurrent);
 
+                // YENİ: %120 HESAPLAMA (İzin Dahil)
+                const target120 = p.salesTarget * 1.2;
+                const dailyNeed120 = getDailyNeed(p.salesRealized, target120, leave);
+
                 return `
-                <div class="bg-white dark:bg-slate-800 rounded-[2rem] p-7 border border-slate-200 dark:border-slate-700 card-shadow hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between">
+                <div class="bg-slate-50 dark:bg-slate-800 rounded-[2rem] p-8 border border-slate-300 dark:border-slate-700 card-shadow hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center gap-4 mb-6 border-b border-slate-50 dark:border-slate-700 pb-4">
-                            <div class="w-14 h-14 rounded-2xl ${hgo>=100 ? 'bg-gradient-to-br from-indigo-500 to-purple-600' : 'bg-slate-800 dark:bg-slate-700'} flex items-center justify-center font-black text-white text-xl shadow-lg shadow-indigo-100 dark:shadow-none">
+                        <div class="flex items-center gap-5 mb-8 border-b border-slate-200 dark:border-slate-700 pb-5">
+                            <div class="w-16 h-16 rounded-2xl ${hgo>=100 ? 'bg-gradient-to-br from-indigo-500 to-purple-600' : 'bg-slate-800 dark:bg-slate-700'} flex items-center justify-center font-black text-white text-2xl shadow-lg shadow-indigo-100 dark:shadow-none">
                                 ${p.name[0]}
                             </div>
                             <div>
-                                <h4 class="font-black text-slate-800 dark:text-white text-lg leading-none">${p.name}</h4>
-                                <p class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mt-2">Satış Danışmanı</p>
+                                <h4 class="font-black text-slate-800 dark:text-white text-xl leading-none flex items-center gap-2">
+                                    ${p.name}
+                                    ${leave > 0 ? `<span class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-[9px] px-1.5 py-0.5 rounded-md font-bold uppercase tracking-wide flex items-center gap-1"><i data-lucide="plane" class="w-3 h-3"></i> ${leave} Gün İzin</span>` : ''}
+                                </h4>
+                                <p class="text-xs font-black text-slate-500 dark:text-slate-500 uppercase tracking-[0.2em] mt-2">Satış Danışmanı</p>
                             </div>
                         </div>
 
-                        <div class="space-y-6">
-                            <!-- Satış Barı -->
-                            <div class="space-y-2">
+                        <div class="space-y-8">
+                            <div class="space-y-3">
                                 <div class="flex justify-between items-end">
-                                    <span class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">Hacim Performans</span>
-                                    <span class="text-xs font-black ${hgo>=80?'text-emerald-600 dark:text-emerald-400':'text-amber-500 dark:text-amber-400'}">%${hgo}</span>
+                                    <span class="text-xs font-black text-slate-600 dark:text-slate-500 uppercase tracking-widest">Hacim Performans</span>
+                                    <span class="text-sm font-black ${hgo>=80?'text-emerald-600 dark:text-emerald-400':'text-amber-500 dark:text-amber-400'}">%${hgo}</span>
                                 </div>
-                                <div class="w-full bg-slate-100 dark:bg-slate-700 h-3 rounded-full overflow-hidden shadow-inner relative">
+                                <div class="w-full bg-slate-200 dark:bg-slate-700 h-4 rounded-full overflow-hidden shadow-inner relative">
                                     <div class="${hgo>=80?'bg-emerald-500':'bg-amber-500'} h-full transition-all duration-1000 absolute left-0 top-0" style="width: ${Math.min(hgo, 100)}%"></div>
                                 </div>
-                                <div class="flex justify-between text-[11px] font-bold text-slate-400 dark:text-slate-500">
-                                    <div>Hedef: <span class="text-slate-600 dark:text-slate-400 text-xs">${p.salesTarget.toLocaleString()}</span></div>
+                                <div class="flex justify-between text-xs font-bold text-slate-500 dark:text-slate-500">
+                                    <div>Hedef: <span class="text-slate-700 dark:text-slate-400 text-sm">${p.salesTarget.toLocaleString()}</span></div>
                                     <div class="text-slate-800 dark:text-slate-300">Gerçekleşen: ${p.salesRealized.toLocaleString()}</div>
                                 </div>
                             </div>
 
-                            <!-- Potansiyel Bilgisi -->
-                            <div class="bg-indigo-50 dark:bg-indigo-900/20 rounded-xl p-3 flex justify-between items-center border border-indigo-100 dark:border-indigo-900/30">
+                            <div class="bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl p-4 flex justify-between items-center border border-indigo-100 dark:border-indigo-900/30">
                                 <div>
-                                    <p class="text-[9px] font-bold text-indigo-400 dark:text-indigo-300 uppercase">Tahmini Kapanış</p>
-                                    <p class="text-sm font-black text-indigo-700 dark:text-indigo-400">
+                                    <p class="text-[10px] font-bold text-indigo-600 dark:text-indigo-300 uppercase mb-1">Tahmini Kapanış</p>
+                                    <p class="text-lg font-black text-indigo-900 dark:text-indigo-400">
                                         ${potential.toLocaleString()} ₺
-                                        <span class="text-xs text-indigo-400 dark:text-indigo-500 ml-1">(%${potentialPercent})</span>
+                                        <span class="text-sm text-indigo-600 dark:text-indigo-500 ml-1">(%${potentialPercent})</span>
                                     </p>
                                 </div>
-                                <i data-lucide="bar-chart-2" class="text-indigo-300 dark:text-indigo-500 w-5 h-5"></i>
+                                <i data-lucide="bar-chart-2" class="text-indigo-400 dark:text-indigo-500 w-6 h-6"></i>
                             </div>
 
-                            <!-- EG Durumu -->
-                            <div class="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">EG Hedef Takip</span>
-                                    <span class="text-xl font-black text-slate-800 dark:text-white">${p.egCurrent} <span class="text-base text-slate-400 dark:text-slate-500">/ ${p.egTarget}</span></span>
+                            <div class="bg-slate-200 dark:bg-slate-700/50 p-5 rounded-2xl border border-slate-300 dark:border-slate-700">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-xs font-black text-slate-600 dark:text-slate-500 uppercase tracking-widest">EG Hedef Takip</span>
+                                    <span class="text-2xl font-black text-slate-800 dark:text-white">${p.egCurrent} <span class="text-lg text-slate-500 dark:text-slate-500">/ ${p.egTarget}</span></span>
                                 </div>
-                                <div class="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden flex">
+                                <div class="w-full bg-slate-300 dark:bg-slate-700 h-2 rounded-full overflow-hidden flex">
                                     <div class="bg-amber-500 h-full" style="width: ${Math.min((p.egCurrent/p.egTarget)*100, 100)}%"></div>
                                     <div class="bg-amber-200 dark:bg-amber-900 h-full" style="width: ${Math.min((egPot/p.egTarget)*100, 100) - Math.min((p.egCurrent/p.egTarget)*100, 100)}%"></div>
                                 </div>
-                                <div class="flex justify-between mt-3 text-[9px] font-bold">
+                                <div class="flex justify-between mt-4 text-xs font-bold">
                                     <div class="flex flex-col">
-                                        <span class="text-slate-400 dark:text-slate-500 mb-0.5">Bugün</span>
-                                        <span class="${egDailyRealized>=egDaily ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'} text-sm font-black">${egDailyRealized} <span class="text-slate-300 dark:text-slate-600 text-[9px]">/ ${egDaily}</span></span>
+                                        <span class="text-slate-500 dark:text-slate-500 mb-0.5">Bugün</span>
+                                        <span class="${egDailyRealized>=egDaily ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-700 dark:text-amber-400'} text-base font-black">${egDailyRealized} <span class="text-slate-400 dark:text-slate-600 text-[10px]">/ ${egDaily}</span></span>
                                     </div>
                                     <div class="flex flex-col text-right">
-                                        <span class="text-slate-400 dark:text-slate-500 mb-0.5">Tahmini</span>
-                                        <span class="text-amber-600 dark:text-amber-400 text-xl font-black">${egPot}</span>
+                                        <span class="text-slate-500 dark:text-slate-500 mb-0.5">Tahmini</span>
+                                        <span class="text-amber-700 dark:text-amber-400 text-2xl font-black">${egPot}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="mt-6 p-4 rounded-xl ${dailyRealized >= dailyNeed ? 'bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-900/30' : 'bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30'} transition-colors">
-                        <div class="flex justify-between items-center">
-                            <div class="flex flex-col">
-                                <span class="text-[9px] font-black ${dailyRealized >= dailyNeed ? 'text-emerald-500 dark:text-emerald-400' : 'text-blue-400 dark:text-blue-400'} uppercase tracking-widest leading-none">Bugün Gereken</span>
-                                <div class="flex items-baseline gap-2 mt-1">
-                                    <span class="text-lg font-black ${dailyRealized >= dailyNeed ? 'text-emerald-700 dark:text-emerald-400' : 'text-blue-700 dark:text-blue-400'}">${dailyNeed.toLocaleString()} ₺</span>
-                                    ${dailyRealized > 0 ? `<span class="text-[10px] font-bold text-slate-400 dark:text-slate-500">(Yapılan: ${dailyRealized.toLocaleString()})</span>` : ''}
+                    <div class="mt-8 space-y-3">
+                        <div class="p-5 rounded-2xl ${dailyRealized >= dailyNeed ? 'bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-900/30' : 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-900/30'} transition-colors">
+                            <div class="flex justify-between items-center">
+                                <div class="flex flex-col">
+                                    <span class="text-[10px] font-black ${dailyRealized >= dailyNeed ? 'text-emerald-700 dark:text-emerald-400' : 'text-blue-600 dark:text-blue-400'} uppercase tracking-widest leading-none">Bugün Gereken</span>
+                                    <div class="flex items-baseline gap-2 mt-1">
+                                        <span class="text-xl font-black ${dailyRealized >= dailyNeed ? 'text-emerald-800 dark:text-emerald-400' : 'text-blue-800 dark:text-blue-400'}">${dailyNeed.toLocaleString()} ₺</span>
+                                        ${dailyRealized > 0 ? `<span class="text-xs font-bold text-slate-500 dark:text-slate-500">(Yapılan: ${dailyRealized.toLocaleString()})</span>` : ''}
+                                    </div>
+                                </div>
+                                <div class="${dailyRealized >= dailyNeed ? 'bg-emerald-200 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400' : 'bg-blue-200 dark:bg-blue-900/50 text-blue-700 dark:text-blue-400'} p-3 rounded-full">
+                                    <i data-lucide="${dailyRealized >= dailyNeed ? 'check-circle-2' : 'calendar-check'}" class="w-6 h-6"></i>
                                 </div>
                             </div>
-                            <div class="${dailyRealized >= dailyNeed ? 'bg-emerald-200 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400' : 'bg-blue-200 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'} p-2 rounded-full">
-                                <i data-lucide="${dailyRealized >= dailyNeed ? 'check-circle-2' : 'calendar-check'}" class="w-5 h-5"></i>
+                        </div>
+
+                        <!-- YENİ: %120 ÖDÜL KUTUSU -->
+                        <div class="p-4 rounded-2xl bg-purple-50 dark:bg-purple-900/10 border border-purple-200 dark:border-purple-900/30 transition-colors group">
+                            <div class="flex justify-between items-center">
+                                <div class="flex flex-col">
+                                    <span class="text-[9px] font-black text-purple-600 dark:text-purple-400 uppercase tracking-widest leading-none flex items-center gap-1.5">
+                                        <i data-lucide="trophy" class="w-3 h-3"></i> %120 Ödül Hedefi (Günlük)
+                                    </span>
+                                    <div class="flex items-baseline gap-2 mt-1.5">
+                                        <span class="text-lg font-black text-purple-800 dark:text-purple-300">${dailyNeed120.toLocaleString()} ₺</span>
+                                        <span class="text-[9px] font-bold text-purple-400 dark:text-purple-500 hidden group-hover:inline">Hedef: ${(target120).toLocaleString()}</span>
+                                    </div>
+                                </div>
+                                <div class="bg-purple-100 dark:bg-purple-900/40 p-2 rounded-xl text-purple-600 dark:text-purple-400">
+                                    <i data-lucide="crown" class="w-5 h-5"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -595,34 +643,30 @@
             renderManagement();
         }
 
+        // ... existing Management render code ...
         function renderManagement() {
             document.getElementById('managementTableBody').innerHTML = teamPerformance.map(p => `
-                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border-b border-slate-50 dark:border-slate-800 last:border-0 ${p.isGhost ? 'bg-slate-50 dark:bg-slate-800/80' : ''}">
-                    <td class="px-6 py-4 font-bold text-xs text-slate-700 dark:text-slate-300 sticky left-0 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 border-r border-slate-100 dark:border-slate-700 z-10 flex flex-col">
+                <tr class="hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-colors border-b border-slate-200 dark:border-slate-800 last:border-0 ${p.isGhost ? 'bg-slate-100 dark:bg-slate-800/80' : ''}">
+                    <td class="px-6 py-5 font-bold text-sm text-slate-700 dark:text-slate-300 sticky left-0 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 border-r border-slate-200 dark:border-slate-700 z-10 flex flex-col">
                         <span>${p.name}</span>
-                        ${p.isGhost ? '<span class="text-[9px] text-purple-500 font-bold uppercase tracking-wider mt-1">HAYALET (ONLINE)</span>' : ''}
+                        ${p.isGhost ? '<span class="text-[9px] text-purple-600 font-bold uppercase tracking-wider mt-1">HAYALET (ONLINE)</span>' : ''}
                     </td>
+                    <td class="px-2 py-4"><input type="number" onchange="updatePerf('${p.id}', 'salesRealized', this.value)" value="${p.salesRealized}" class="w-28 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-xl p-3 text-sm text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"></td>
+                    <td class="px-2 py-4"><input type="number" onchange="updatePerf('${p.id}', 'salesTarget', this.value)" value="${p.salesTarget}" class="w-28 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-xl p-3 text-sm text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"></td>
+                    <td class="px-2 py-4 bg-indigo-100 dark:bg-indigo-900/10"><input type="number" onchange="updatePerf('${p.id}', 'dailySales', this.value)" value="${p.dailySales || 0}" class="w-28 bg-white dark:bg-slate-800 border-2 border-indigo-200 dark:border-indigo-900 rounded-xl p-3 text-sm font-bold text-indigo-700 dark:text-indigo-400 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="0"></td>
+                    <td class="px-2 py-4"><input type="number" onchange="updatePerf('${p.id}', 'egCurrent', this.value)" value="${p.egCurrent}" class="w-20 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-xl p-3 text-sm text-center text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"></td>
+                    <td class="px-2 py-4"><input type="number" onchange="updatePerf('${p.id}', 'egTarget', this.value)" value="${p.egTarget}" class="w-20 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-xl p-3 text-sm text-center text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"></td>
+                    <td class="px-2 py-4 bg-amber-100 dark:bg-amber-900/10"><input type="number" onchange="updatePerf('${p.id}', 'dailyEG', this.value)" value="${p.dailyEG || 0}" class="w-20 bg-white dark:bg-slate-800 border-2 border-amber-200 dark:border-amber-900 rounded-xl p-3 text-sm text-center font-bold text-amber-700 dark:text-amber-400 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="0"></td>
                     
-                    <!-- Toplam Satış ve Hedef -->
-                    <td class="px-2 py-3"><input type="number" onchange="updatePerf('${p.id}', 'salesRealized', this.value)" value="${p.salesRealized}" class="w-24 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl p-2 text-xs text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"></td>
-                    <td class="px-2 py-3"><input type="number" onchange="updatePerf('${p.id}', 'salesTarget', this.value)" value="${p.salesTarget}" class="w-24 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl p-2 text-xs text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"></td>
+                    <!-- YENİ: İZİN GİRİŞ ALANI -->
+                    <td class="px-2 py-4 bg-red-50/50 dark:bg-red-900/10"><div class="relative"><i data-lucide="calendar" class="w-3 h-3 absolute left-3 top-4 text-red-400"></i><input type="number" onchange="updatePerf('${p.id}', 'leaveDays', this.value)" value="${p.leaveDays || 0}" class="w-20 pl-8 bg-white dark:bg-slate-800 border-2 border-red-100 dark:border-red-900/50 rounded-xl p-3 text-sm text-center font-bold text-red-600 dark:text-red-400 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="0"></div></td>
                     
-                    <!-- BUGÜN SATIŞ -->
-                    <td class="px-2 py-3 bg-indigo-50/20 dark:bg-indigo-900/10"><input type="number" onchange="updatePerf('${p.id}', 'dailySales', this.value)" value="${p.dailySales || 0}" class="w-24 bg-white dark:bg-slate-800 border-2 border-indigo-100 dark:border-indigo-900 rounded-xl p-2 text-xs font-bold text-indigo-700 dark:text-indigo-400 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="0"></td>
-                    
-                    <!-- Toplam EG ve Hedef -->
-                    <td class="px-2 py-3"><input type="number" onchange="updatePerf('${p.id}', 'egCurrent', this.value)" value="${p.egCurrent}" class="w-16 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl p-2 text-xs text-center text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"></td>
-                    <td class="px-2 py-3"><input type="number" onchange="updatePerf('${p.id}', 'egTarget', this.value)" value="${p.egTarget}" class="w-16 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl p-2 text-xs text-center text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"></td>
-                    
-                    <!-- BUGÜN EG -->
-                    <td class="px-2 py-3 bg-amber-50/20 dark:bg-amber-900/10"><input type="number" onchange="updatePerf('${p.id}', 'dailyEG', this.value)" value="${p.dailyEG || 0}" class="w-16 bg-white dark:bg-slate-800 border-2 border-amber-100 dark:border-amber-900 rounded-xl p-2 text-xs text-center font-bold text-amber-700 dark:text-amber-400 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="0"></td>
-                    
-                    <td class="px-6 py-4 text-center"><button onclick="deleteMember('${p.id}')" class="bg-red-50 dark:bg-red-900/20 text-red-400 dark:text-red-400 p-2 rounded-lg hover:bg-red-500 hover:text-white transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>
+                    <td class="px-6 py-5 text-center"><button onclick="deleteMember('${p.id}')" class="bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400 p-3 rounded-xl hover:bg-red-500 hover:text-white transition-colors"><i data-lucide="trash-2" class="w-5 h-5"></i></button></td>
                 </tr>`).join('');
             lucide.createIcons();
         }
-
-        // --- AKSİYONLAR ---
+        
+        // ... existing Action code ...
         window.switchTab = (tab) => {
             document.getElementById('performanceSection').classList.toggle('hidden', tab !== 'performance');
             document.getElementById('goalsSection').classList.toggle('hidden', tab !== 'goals');
@@ -650,7 +694,8 @@
                 egTarget: parseFloat(document.getElementById('memberEGTarget').value) || 20,
                 dailySales: 0,
                 dailyEG: 0,
-                isGhost: document.getElementById('memberGhost').checked // Hayalet hesap durumu
+                leaveDays: 0, // Yeni varsayılan değer
+                isGhost: document.getElementById('memberGhost').checked 
             });
             toggleModal('memberModal', false); e.target.reset();
         });
